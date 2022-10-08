@@ -1,0 +1,150 @@
+#:import Factory kivy.factory.Factory
+#https://kivy.org/doc/stable/api-kivy.factory.html
+
+Main:
+
+<Main>:
+    orientation : "vertical"
+    Grid:
+        id: grid
+
+    BoxLayout:
+        padding : "10dp"
+        spacing : "20dp"
+        size_hint : 1, .16
+        pos_hint : {"center_x" : .5}
+        ToggleButton:
+            id: Toggle_Play_Pause
+            text : "Play"
+            bold : True
+            on_state: grid.on_toggle_state(self)
+           # background_normal : 'images/start3.png'
+           # background_down : 'images/pause.png'
+           # size_hint : (.35, .35)
+           # pos_hint : {"center_x":0.5, "center_y":0.5}
+
+        Button:
+            text : "Clear"
+            on_press: grid.clear()
+
+        BoxLayout:
+            orientation : "vertical"
+            Button:
+                text : "Random Cells"
+                on_press : grid.random_cells()
+                disabled : not Toggle_Play_Pause.state=="normal"
+            Button:
+                text : "Load Cells"
+                disabled : not Toggle_Play_Pause.state=="normal"
+                on_press : Factory.OpenDialog('load', grid).open()
+            Button:
+                text : "Save Cells"
+                disabled : not Toggle_Play_Pause.state=="normal"
+                on_press : Factory.OpenDialog('save', grid).open()
+
+
+        BoxLayout:
+            orientation : "vertical"
+            BoxLayout:
+                Label:
+                    text : "cols"
+                TextInput:
+                    id : cols
+                    input_type : "number"
+                    text : str(grid.cols)
+                    multiline: False
+                    font_size : "12dp"
+                    on_text_validate: grid.on_text_cols_validate(self)
+                    disabled : Toggle_Play_Pause.state=="down"
+            BoxLayout:
+                Label:
+                    text: "rows"
+                TextInput:
+                    id : rows
+                    input_type : "number"
+                    text : str(grid.rows)
+                    multiline: False
+                    font_size : "12dp"
+                    on_text_validate: grid.on_text_rows_validate(self)
+                    disabled : Toggle_Play_Pause.state=="down"
+
+
+        Label:
+            id : iterations
+            text: str(grid.iterations)
+            size_hint: (0.5,0.5)
+            pos_hint: {"center_x": .5, "center_y": .5}
+            font_name : "fonts/Lcd.ttf"
+            font_size: "52dp"
+            color: 1, 0, .6
+
+        Slider:
+            id: slider
+            orientation: "vertical"
+            min: 1
+            max: 20
+            value: 5
+            on_value: grid.change_fps(self)
+            cursor_size: (25,25)
+            size_hint: (.3, 1.2)
+            pos_hint: {"center_x": 0.5, "center_y": 0.5}
+
+
+<Grid>:
+    canvas.before:
+        Color:
+            rgba: .5, 0.1, 0, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    spacing: 1, 1
+    padding: 10, 10, 10, 30
+
+
+<Cell>:
+    canvas.before:
+        Color:
+            rgba: 1, 1, 1, 1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+
+<OpenDialog>:
+    title : "Import/Export de fichiers de configuration"
+    size_hint: None, None
+    size: 400, 120
+    auto_dismiss: True
+    filename: input.text
+
+    BoxLayout:
+        orientation: 'vertical'
+        pos: self.pos
+        size: root.size
+        BoxLayout:
+            spacing :5
+            Label:
+                text: "Nom Du Fichier :"
+            TextInput:
+                id: input
+                focus: True
+                multiline: False
+        BoxLayout:
+            spacing : 10
+            Button:
+                text: 'Enter'
+                background_color: 1,0,0,0.9
+                on_press: root._enter()
+
+            Button:
+                text: 'Cancel'
+                background_color: 1,1,1,0.7
+                on_press: root.dismiss()
+
+
+
+
+
+
+
+
