@@ -60,18 +60,6 @@ class Cell(Widget):
         # elif self.alive == 0:
         #     self.rect_colour.rgb = (1, 1, 1)
 
-    # callback event on the age property: the cell is cleared and redesigned as a rectangle canvas,
-    # updating the color according to its age
-    # def on_alive(self, instance, value):
-    #     self.canvas.clear()
-    #     if value == 1:  # if alive = 1 : Vit
-    #         with self.canvas:
-    #             Color(1, 0, 0)
-    #             Rectangle(size=self.size, pos=self.pos)
-    #     else:
-    #         with self.canvas:
-    #             Color(1, 1, 1)
-    #             Rectangle(size=self.size, pos=self.pos)
 
     def is_alive(self):
         if (self.x_grid, self.y_grid) in cells_alive:
@@ -264,18 +252,12 @@ class Grid(GridLayout):
             if (cell.x_grid, cell.y_grid) in cells_alive:
                 cell.live()
 
-
     def import_cells(self, cells):
         self.clear()
         for cell in self.children:
             if [cell.x_grid, cell.y_grid] in cells:
                 cell.live()
 
-
-
-    # def save_json(self):
-    #     obj = OpenDialog(self)
-    #     obj.open()
 
 class OpenDialog(Popup):
        filename = StringProperty()
