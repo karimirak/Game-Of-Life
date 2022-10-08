@@ -1,4 +1,4 @@
-# Game of Life : Conway's
+# Game of Life : Conway
 
 Implémentation du jeu de la vie de Conway.
 
